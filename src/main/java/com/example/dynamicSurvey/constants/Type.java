@@ -15,7 +15,7 @@ public enum Type {
 
 	public String getType() {
 		return type;
-	}		
+	}
 
 	public void setType(String type) {
 		this.type = type;
@@ -48,5 +48,18 @@ public enum Type {
 		}
 
 		return false;
+	}
+
+	public static boolean isChoiceType(String input) {
+		// 三個合併
+		/*
+		 * if (input.equalsIgnoreCase(SINGLE.getType()) ||
+		 * input.equalsIgnoreCase(MULTI.getType()) 
+		 * ) { return true; }
+		 */
+
+		// 有產生就會是 true 了
+		return input.equalsIgnoreCase(SINGLE.getType()) ||
+				 input.equalsIgnoreCase(MULTI.getType());
 	}
 }

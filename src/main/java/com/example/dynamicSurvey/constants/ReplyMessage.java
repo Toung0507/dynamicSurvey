@@ -12,9 +12,17 @@ public enum ReplyMessage {
 	TYPE_ERROR(400, "Type Error"), //
 	OPTIONS_ERROR(400, "Options Error"), //
 	QUIZ_ID_ERROR(400, "Quiz Id Error"), //
-	QUIZ_ID_MISMATCH(400, "Quiz Id Mismatch"),//
-	QUIZ_UPDATE_FORBIDDEN(400,"Quiz Update Forbidden"),//
-	QUIZ_NOT_FOUND(400,"Quiz Not Found");
+	QUIZ_ID_MISMATCH(400, "Quiz Id Mismatch"), //
+	QUIZ_UPDATE_FORBIDDEN(400, "Quiz Update Forbidden"), //
+	QUIZ_NOT_FOUND(400, "Quiz Not Found"), //
+	USER_EMAIL_ERROR(400, "User Email Error"), //
+	
+	USER_EMAIL_EXISTED(400, "User Email Existed"), //
+	USER_NAME_ERROR(400, "User Name Error"), //
+	USER_AGE_ERROR(400, "User Age Error"),//
+	USER_PASSWORD_ERROR(400,"User Password Error"),//
+	USER_NOT_FOUND(404,"User Not Found"),//
+	ANSWER_REQUIRED(400,"Answer Required");
 
 	private int code;
 

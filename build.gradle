@@ -25,7 +25,9 @@ dependencies {
 	// mysql connector: mysql 的驅動程式
 	implementation 'com.mysql:mysql-connector-j'
 	
-	//implementation 'org.springframework.boot:spring-boot-starter-security'
+	// 登入的安全性
+	implementation 'org.springframework.boot:spring-boot-starter-security'
+	
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
 	
