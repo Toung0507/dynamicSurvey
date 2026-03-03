@@ -19,6 +19,8 @@ import com.example.dynamicSurvey.res.UpdateRes;
 import com.example.dynamicSurvey.service.QuizService;
 import com.mysql.cj.x.protobuf.MysqlxCrud.Delete;
 
+import jakarta.validation.Valid;
+
 @RestController
 @CrossOrigin(origins = "*")
 public class QuizController {
@@ -26,8 +28,9 @@ public class QuizController {
 	@Autowired
 	private QuizService quizService;
 
+	// @Valid: 讓 CreateReq 中的屬性限制生效 
 	@PostMapping("quiz/create")
-	public CreateRes create(@RequestBody CreateReq req) {
+	public CreateRes create(@Valid @RequestBody CreateReq req) {
 		return quizService.create(req);
 	}
 

@@ -209,6 +209,84 @@ public class FillinService {
 //				ReplyMessage.SUCCESS.getMessage(), userVoList);
 //	}
 //	
+	
+	// AI 給的解釋
+//	public GetFeedbackUserRes getAllFillinUsers(int quizId) {
+//	    // 基礎檢查：如果 ID 不合法就直接回傳錯誤
+//	    if (quizId <= 0) {
+//	        return new GetFeedbackUserRes(ReplyMessage.QUIZ_ID_ERROR.getCode(), 
+//	                                      ReplyMessage.QUIZ_ID_ERROR.getMessage());
+//	    }
+//
+//	    // 第一步：從資料庫抓出這份問卷「所有的填答紀錄」 (這是扁平的清單，裡面人跟題目都擠在一起)
+//	    List<Fillin> list = fillinDao.getByQuizId(quizId);
+//	    
+//	    // 預先準備好所有的題目，等等比對用 (這行放外面可以省下大量資料庫查詢次數)
+//	    List<Question> questionList = questionDao.getByQuizId(quizId);
+//
+//	    // 第二步：準備暫存區 (Map)
+//	    // emailUserVoMap: 用來記錄「這個人建立過了嗎？」，防止重複建立個資
+//	    Map<String, FeedbackUserVo> emailUserVoMap = new HashMap<>();
+//	    // answerVomap: 用來記錄「某個使用者的專屬籃子」，方便我們隨時把答案丟進去
+//	    Map<String, List<AnswerVo>> answerVomap = new HashMap<>();
+//	    
+//	    // 最終要回傳的「填答者清單」
+//	    List<FeedbackUserVo> userVoList = new ArrayList<>();
+//
+//	    // 第三步：開始跑迴圈，一筆一筆處理填答紀錄
+//	    for (Fillin fillin : list) {
+//	        String email = fillin.getUserEmail();
+//
+//	        // 【處理人的部分】：如果這個 Email 沒出現過，代表是新的一位填答者
+//	        if (!emailUserVoMap.containsKey(email)) {
+//	            
+//	            // 1. 去資料庫抓這個人的基本個資
+//	            User user = userDao.getByEmail(email);
+//	            
+//	            // 2. 為這個人準備一個全新的「答案籃子」 (空的 List)
+//	            List<AnswerVo> newAnswerList = new ArrayList<>();
+//	            
+//	            // 3. 建立這個人的 Vo 物件，並把「籃子」交給他
+//	            FeedbackUserVo userVo = new FeedbackUserVo(
+//	                user.getName(), user.getTel(), user.getEmail(), 
+//	                user.getAge(), fillin.getFillinDate(), newAnswerList
+//	            );
+//
+//	            // 4. 把這個人加入最終結果清單
+//	            userVoList.add(userVo);
+//	            
+//	            // 5. 重要的紀錄：在 Map 記下這個人已經處理過，並記下他的籃子位置
+//	            emailUserVoMap.put(email, userVo);
+//	            answerVomap.put(email, newAnswerList);
+//	        }
+//
+//	        // 【處理答案比對的部分】：
+//	        // 不論是不是新的人，現在這筆 fillin 的答案都要對應到正確的題目
+//	        for (Question question : questionList) {
+//	            
+//	            // 如果這筆填答的題號 == 題庫裡的題號
+//	            if (fillin.getQuestionId() == question.getQuestionId()) {
+//	                
+//	                // 1. 把題目跟答案打包成 AnswerVo
+//	                AnswerVo answerVo = new AnswerVo(question, fillin.getAnswer());
+//	                
+//	                // 2. 【核心動作】：從 Map 裡找出「這個人」的籃子 (這是老師強調的指向問題)
+//	                List<AnswerVo> currentUsersBasket = answerVomap.get(email);
+//	                
+//	                // 3. 把打包好的答案丟進籃子裡
+//	                currentUsersBasket.add(answerVo);
+//	                
+//	                // (註：因為是引用，籃子內容更新了，userVoList 裡的資料也會跟著變)
+//	                break; // 找到對應題目後就跳出內層迴圈，節省時間
+//	            }
+//	        }
+//	    }
+//
+//	    // 最後回傳組裝完成的結果
+//	    return new GetFeedbackUserRes(ReplyMessage.SUCCESS.getCode(), 
+//	                                  ReplyMessage.SUCCESS.getMessage(), 
+//	                                  userVoList);
+//	}
 
 	public FeedbackRes feedback(FeedbackReq req) {
 		// 參數檢查

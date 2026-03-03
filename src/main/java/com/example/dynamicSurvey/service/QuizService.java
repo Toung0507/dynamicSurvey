@@ -10,6 +10,7 @@ import org.springframework.util.StringUtils;
 
 import com.example.dynamicSurvey.constants.ReplyMessage;
 import com.example.dynamicSurvey.constants.Type;
+import com.example.dynamicSurvey.constants.VaildationMsg;
 import com.example.dynamicSurvey.dao.QuizDao;
 import com.example.dynamicSurvey.dao.QuestionDao;
 import com.example.dynamicSurvey.entity.Question;
@@ -24,6 +25,9 @@ import com.example.dynamicSurvey.res.GetQuizRes;
 import com.example.dynamicSurvey.res.UpdateRes;
 
 import jakarta.transaction.Transactional;
+import jakarta.validation.constraints.Future;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Past;
 
 @Service
 public class QuizService {
@@ -31,7 +35,7 @@ public class QuizService {
 	@Autowired
 	private QuizDao quizDao;
 
-	@Autowired	
+	@Autowired
 	private QuestionDao questionDao;
 
 	/**
@@ -74,27 +78,35 @@ public class QuizService {
 	private CreateRes checkParams(CreateReq req) {
 
 		// 檢查問卷標題
-		if (!StringUtils.hasText(req.getTitle())) {
-			return new CreateRes(ReplyMessage.TITLE_ERROR.getCode(), //
-					ReplyMessage.TITLE_ERROR.getMessage());
-		}
+//		if (!StringUtils.hasText(req.getTitle())) {
+//			return new CreateRes(ReplyMessage.TITLE_ERROR.getCode(), //
+//					ReplyMessage.TITLE_ERROR.getMessage());
+//		}
 
 		// 檢查問卷描述
-		if (!StringUtils.hasText(req.getDescription())) {
-			return new CreateRes(ReplyMessage.DESCRIPTION_ERROR.getCode(), //
-					ReplyMessage.DESCRIPTION_ERROR.getMessage());
-		}
-
+//		if (!StringUtils.hasText(req.getDescription())) {
+//			return new CreateRes(ReplyMessage.DESCRIPTION_ERROR.getCode(), //
+//					ReplyMessage.DESCRIPTION_ERROR.getMessage());
+//		}
 
 		// 1.開始時間不能比今天早 2.開始時間不能比結束時間晚
-		if (req.getStartDate() == null || req.getStartDate().isBefore(LocalDate.now())
-				|| req.getStartDate().isAfter(req.getEndDate())) {
+		/**
+		 * req.getStartDate() == null || 相等於 @NotNull(message =
+		 * VaildationMsg.START_DATE_ERROR_MSG)<br>
+		 * req.getEndDate() == null || 相等於 @NotNull(message =
+		 * VaildationMsg.END_DATE_ERROR_MSG)
+		 * 
+		 * @Past跟@Future 都不能代替剩下的條件<br>
+		 *               註解（如 @Future）只能單獨檢查一個欄位的格式，<br>
+		 *               而 if 才能比對兩個欄位之間的「先後順序」業務邏輯。
+		 */
+		if (req.getStartDate().isBefore(LocalDate.now()) || req.getStartDate().isAfter(req.getEndDate())) {
 			return new CreateRes(ReplyMessage.START_DATE_ERROR.getCode(), //
 					ReplyMessage.START_DATE_ERROR.getMessage());
 		}
 
 		// 結束時間不能比今天早
-		if (req.getEndDate() == null || req.getEndDate().isBefore(LocalDate.now())) {
+		if (req.getEndDate().isBefore(LocalDate.now())) {
 			return new CreateRes(ReplyMessage.END_DATE_ERROR.getCode(), //
 					ReplyMessage.END_DATE_ERROR.getMessage());
 		}
@@ -102,16 +114,16 @@ public class QuizService {
 		// 檢查問題列表
 		for (Question item : req.getQuestionList()) {
 			// 檢查問題的 ID
-			if (item.getQuestionId() <= 0) {
-				return new CreateRes(ReplyMessage.QUESTION_ID_ERROR.getCode(), //
-						ReplyMessage.QUESTION_ID_ERROR.getMessage(), item.getQuestionId());
-			}
-
-			// 檢查問題敘述
-			if (!StringUtils.hasText(item.getQuestion())) {
-				return new CreateRes(ReplyMessage.QUESTION_ERROR.getCode(), //
-						ReplyMessage.QUESTION_ERROR.getMessage(), item.getQuestionId());
-			}
+//			if (item.getQuestionId() <= 0) {
+//				return new CreateRes(ReplyMessage.QUESTION_ID_ERROR.getCode(), //
+//						ReplyMessage.QUESTION_ID_ERROR.getMessage(), item.getQuestionId());
+//			}
+//
+//			// 檢查問題敘述
+//			if (!StringUtils.hasText(item.getQuestion())) {
+//				return new CreateRes(ReplyMessage.QUESTION_ERROR.getCode(), //
+//						ReplyMessage.QUESTION_ERROR.getMessage(), item.getQuestionId());
+//			}
 
 			// 檢查類型
 			// 第一種方式

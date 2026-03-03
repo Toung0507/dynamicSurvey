@@ -28,6 +28,9 @@ dependencies {
 	// 登入的安全性
 	implementation 'org.springframework.boot:spring-boot-starter-security'
 	
+	// 驗證的相依性
+	implementation 'org.springframework.boot:spring-boot-starter-validation'
+	
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
 	
